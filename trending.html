@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://kit.fontawesome.com/d6b3ec43eb.js" crossorigin="anonymous"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        h1 {
+            color: white;
+            padding-left: 50px;
+            font-weight: 40;
+            margin-top: 30px;
+            font-size: 20px;
+            margin-bottom: -70px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Latest & Trending</h1>
+    <div class="main-slide">
+        <div class="left btn-block">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="second-slide">
+            <div class="container">
+
+            </div>
+        </div>
+        <div class="right btn-block"><i class="fas fa-chevron-right"></i></div>
+    </div>
+    <h1>Movies Recommended For You</h1>
+    <div class="main-slide  main-s2">
+        <div class="left2 btn-block">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="second-slide">
+            <div class="container con2">
+            </div>
+        </div>
+        <div class="right2 btn-block"><i class="fas fa-chevron-right"></i></div>
+    </div>
+</body>
+
+</html>
+<script>
+    let homeKey = "e27127dccd4825b81fa6d0cd45bef900";
+    async function homePage() {
+        url = `https://api.themoviedb.org/4/list/1?api_key=${homeKey}`;
+        let res = await fetch(url);
+        let data = await res.json();
+        displayHome(data.results);
+    }
+    ////////////////////////////////////
+    homePage();
+    let container = document.querySelector(".container");
+    function displayHome(data) {
+        data.map(function (mov) {
+            let main = document.createElement("div");
+            main.classList.add("main");
+            let txtDiv = document.createElement("div");
+            txtDiv.classList.add("txtDiv1");
+            let name = document.createElement("h1");
+            name.textContent = `${mov.original_title} (${mov.original_language})`;
+            let rate = document.createElement("h2");
+            rate.innerHTML = `IMDB rate: <span>${mov.vote_average}</span> (${mov.popularity})`;
+            let over = document.createElement("p");
+            over.textContent = mov.overview;
+            let watch = document.createElement("h3");
+            watch.innerHTML = `<i class="fas fa-play"></i> Watch now`;
+            txtDiv.append(name, rate, over, watch);
+            main.append(txtDiv);
+            main.style.backgroundImage = `url(https://image.tmdb.org/t/p/w500/${mov.backdrop_path})`;
+            container.append(main);
+            main.addEventListener("mouseenter", function () {
+                txtDiv.classList.remove("txtDiv1");
+                main.classList.add("main-active");
+            });
+            main.addEventListener("mouseleave", function () {
+                txtDiv.classList.add("txtDiv1");
+                main.classList.remove("main-active");
+            });
+        });
+    }
+    ///////////////////////slider
+    let pos = 0;
+    document.querySelector(".left").addEventListener("click", function () {
+        pos += 20;
+        if (pos > -2) {
+            pos = -2;
+        }
+        container.style.left = `${pos}%`;
+    });
+    document.querySelector(".right").addEventListener("click", function () {
+        if (pos > -240) {
+            pos += -20;
+        } else if (pos < -240) {
+            pos = -247;
+        }
+        container.style.left = `${pos}%`;
+    });
+
+    let mainSlide = document.querySelector(".main-slide");
+    mainSlide.addEventListener("mouseenter", function () {
+        document.querySelector(".left").classList.remove("btn-block");
+        document.querySelector(".right").classList.remove("btn-block");
+    });
+    mainSlide.addEventListener("mouseleave", function () {
+        document.querySelector(".left").classList.add("btn-block");
+        document.querySelector(".right").classList.add("btn-block");
+    });
+    async function nextSide() {
+        let url = `https://api.themoviedb.org/3/discover/movie?api_key=${homeKey}&primary_release_year=2017&sort_by=revenue.desc`;
+        let res = await fetch(url);
+        let data = await res.json();
+        nextSideDisplay(data.results);
+    }
+    nextSide();
+    let con2 = document.querySelector(".con2");
+    function nextSideDisplay(data) {
+        data.map(function (mov) {
+            let main = document.createElement("div");
+            main.classList.add("main");
+            let txtDiv = document.createElement("div");
+            txtDiv.classList.add("txtDiv1");
+            let name = document.createElement("h1");
+            name.textContent = `${mov.original_title} (${mov.original_language})`;
+            let rate = document.createElement("h2");
+            rate.innerHTML = `IMDB rate: <span>${mov.vote_average}</span> (${mov.popularity})`;
+            let over = document.createElement("p");
+            over.textContent = mov.overview;
+            let watch = document.createElement("h3");
+            watch.innerHTML = `<i class="fas fa-play"></i> Watch now`;
+            txtDiv.append(name, rate, over, watch);
+            main.append(txtDiv);
+            main.style.backgroundImage = `url(https://image.tmdb.org/t/p/w500/${mov.backdrop_path})`;
+            con2.append(main);
+            main.addEventListener("mouseenter", function () {
+                txtDiv.classList.remove("txtDiv1");
+                main.classList.add("main-active");
+            });
+            main.addEventListener("mouseleave", function () {
+                txtDiv.classList.add("txtDiv1");
+                main.classList.remove("main-active");
+            });
+        });
+    }
+    let pos2 = 0;
+    document.querySelector(".left2").addEventListener("click", function () {
+        pos2 += 20;
+        if (pos2 > -2) {
+            pos2 = -2;
+        }
+        con2.style.left = `${pos2}%`;
+    });
+    document.querySelector(".right2").addEventListener("click", function () {
+        if (pos2 > -240) {
+            pos2 += -20;
+        } else if (pos2 < -240) {
+            pos2 = -247;
+        }
+        con2.style.left = `${pos2}%`;
+    });
+    let mainS2 = document.querySelector(".main-s2");
+    mainS2.addEventListener("mouseenter", function () {
+        document.querySelector(".left2").classList.remove("btn-block");
+        document.querySelector(".right2").classList.remove("btn-block");
+    });
+    mainS2.addEventListener("mouseleave", function () {
+        document.querySelector(".left2").classList.add("btn-block");
+        document.querySelector(".right2").classList.add("btn-block");
+    });
+</script>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://kit.fontawesome.com/d6b3ec43eb.js" crossorigin="anonymous"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        img {
+            width: 30% !important;
+            height: 90%;
+            margin-top: 30px;
+            margin-right: 30px;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide">
+    </div>
+</body>
+
+</html>
+<script>
+
+    async function getData() {
+        let movie = JSON.parse(localStorage.getItem("movieId"))
+        let url = `http://www.omdbapi.com/?i=${movie}&apikey=948ecd16`
+        let res = await fetch(url)
+        let data = await res.json()
+        displayData(data)
+    }
+    getData()
+    let slide = document.querySelector(".slide");
+    function displayData(mov) {
+        console.log('mov:', mov)
+        let image = document.createElement("div");
+        image.classList.add("image");
+        let imgTxt = document.createElement("div");
+        imgTxt.classList.add("imgTxt");
+        let span = document.createElement("span");
+        span.textContent = "SUBSCIBER";
+        let title = document.createElement("h1");
+        title.textContent = mov.Title;
+        let type = document.createElement("h2");
+        type.innerHTML = `Laguage: (${mov.Language}) ${mov.Released}`;
+        let imdb = document.createElement("h3");
+        imdb.innerHTML = `IMdb rate: ${mov.imdbRating} (${mov.imdbVotes})`;
+        let overview = document.createElement("p");
+        overview.textContent = mov.Plot;
+        let genre = document.createElement("h4")
+        genre.textContent = `Genre: ${mov.Genre}`
+        let run = document.createElement("h5")
+        run.textContent = `Runtime: ${mov.Runtime}`
+        let watch = document.createElement("h4");
+        watch.innerHTML = `<i class="fas fa-play"></i> Watch now`;
+        imgTxt.append(span, title, type, imdb, run, genre, overview, watch);
+        let img = document.createElement("img");
+        img.src = mov.Poster;
+        image.append(imgTxt, img);
+        slide.append(image);
+    }
+
+</script>
