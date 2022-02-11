@@ -96,7 +96,7 @@ input:focus {
    max-height:500px;
     border-radius: 10px;
     position: absolute;
-    overflow-y: hidden;
+    overflow-x: hidden;
     background-color:#0b101a;
     top: 100%;
     /* padding:20px; */
