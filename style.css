@@ -96,7 +96,7 @@ input:focus {
    max-height:500px;
     border-radius: 10px;
     position: absolute;
-    overflow-y: scroll;
+    overflow-y: hidden;
     background-color:#0b101a;
     top: 100%;
     /* padding:20px; */
